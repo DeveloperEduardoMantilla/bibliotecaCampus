@@ -78,7 +78,7 @@ storageLibro.get("/autor/", validateLibro, (req, res)=>{
 
 })
 storageLibro.get("/pag500", (req, res)=>{
-    let sql = 'select * from libro where num_paginas>500;';
+    let sql = 'select libro.titulo as libro, autor.nombre as autor, libro.num_paginas as cantPaginas from libro inner join autor on autor.id_autor=libro.id_autor where num_paginas>500;';
     con.query(sql, (err,data, fil)=>{
         if(err){
             res.status(500).send("Error en la solicitud"+err);
