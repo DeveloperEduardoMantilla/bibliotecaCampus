@@ -43,4 +43,20 @@ storageLibro.get("/disponibles/", (req, res)=>{
     })
 
 })
+
+storageLibro.get("/prestados/", (req, res)=>{
+    let sql = 'select libro.titulo as libro, prestamo.fecha_devolucion from libro inner join prestamo on prestamo.id_libro=libro.id_libro where prestamo.estado="Prestado"';
+    con.query(sql, (err,data, fil)=>{
+        if(err){
+            res.status(500).send("Error en la solicitud"+err);
+        }else{
+            if(Object.entries(data).length === 0){
+                res.json({"Mensaje":"No se encontro registro en la base de datos"});
+            }else{
+                res.send(data);
+            }
+        }
+    })
+
+})
 export default storageLibro;
