@@ -109,4 +109,20 @@ storageLibro.get("/reserva", (req, res)=>{
 
 })
 
+storageLibro.get("/tokio", (req, res)=>{
+    let sql = `select * from libro where libro.titulo like '%tokio%'`;
+    con.query(sql, (err,data, fil)=>{
+        if(err){
+            res.status(500).send("Error en la solicitud"+err);
+        }else{
+            if(Object.entries(data).length === 0){
+                res.json({"Mensaje":"No se encontro registro en la base de datos"});
+            }else{
+                res.send(data);
+            }
+        }
+    })
+
+})
+
 export default storageLibro;
