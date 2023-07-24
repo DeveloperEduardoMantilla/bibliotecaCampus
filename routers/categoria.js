@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import mysql from "mysql2";
 import {Router} from "express";
-
+import validateCategoria from "../middleware/validateCategoria.js";
 
 dotenv.config();
 let storageCategoria = Router();
@@ -28,4 +28,23 @@ storageCategoria.get("/", (req, res)=>{
     })
 
 })
+
+storageCategoria.get("/cate/",validateCategoria, (req, res)=>{
+    
+    let {nombre} = req.query;
+    let sql = `select * from categoria where categoria.nombre like "%${nombre}%";`;
+    con.query(sql, (err,data, fil)=>{
+        if(err){
+            res.status(500).send("Error en la solicitud"+err);
+        }else{
+            if(Object.entries(data).length === 0){
+                res.json({"Mensaje":"No se encontro registro en la base de datos"});
+            }else{
+                res.send(data);
+            }
+        }
+    })
+
+})
+
 export default storageCategoria;
