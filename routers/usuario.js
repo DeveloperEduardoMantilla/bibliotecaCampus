@@ -14,6 +14,7 @@ storageUsuario.use((req, res, next)=>{
 })
 
 storageUsuario.get("/", (req, res)=>{
+
     let sql = 'select usuario.nombre, usuario.email from usuario;';
     con.query(sql, (err,data, fil)=>{
         if(err){

@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import mysql from "mysql2";
 import {Router} from "express";
-
+import validateLibro from "../middleware/validateLibro.js";
 
 dotenv.config();
 let storageLibro = Router();
@@ -59,4 +59,23 @@ storageLibro.get("/prestados/", (req, res)=>{
     })
 
 })
+
+storageLibro.get("/autor/", validateLibro, (req, res)=>{
+
+    let {nombre} = req.query;
+    let sql = `select libro.titulo, autor.nombre from libro inner join autor on autor.id_autor=libro.id_autor where autor.nombre='${nombre}'`;
+    con.query(sql, (err,data, fil)=>{
+        if(err){
+            res.status(500).send("Error en la solicitud"+err);
+        }else{
+            if(Object.entries(data).length === 0){
+                res.json({"Mensaje":"No se encontro registro en la base de datos"});
+            }else{
+                res.send(data);
+            }
+        }
+    })
+
+})
+
 export default storageLibro;
