@@ -28,4 +28,19 @@ storageAutor.get("/", (req, res)=>{
     })
 
 })
+storageAutor.get("/espanola", (req, res)=>{
+    
+    con.query('select * from autor where autor.nacionalidad like "%Española%"', (err,data, fil)=>{
+        if(err){
+            res.status(500).send("Error en la solicitud"+err);
+        }else{
+            if(Object.entries(data).length === 0){
+                res.json({"Mensaje":"No se encontro registro en la base de datos"});
+            }else{
+                res.send(data);
+            }
+        }
+    })
+
+})
 export default storageAutor;
