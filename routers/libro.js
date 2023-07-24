@@ -93,4 +93,20 @@ storageLibro.get("/pag500", (req, res)=>{
 
 })
 
+storageLibro.get("/reserva", (req, res)=>{
+    let sql = 'select * from libro where libro.id_estado =4';
+    con.query(sql, (err,data, fil)=>{
+        if(err){
+            res.status(500).send("Error en la solicitud"+err);
+        }else{
+            if(Object.entries(data).length === 0){
+                res.json({"Mensaje":"No se encontro registro en la base de datos"});
+            }else{
+                res.send(data);
+            }
+        }
+    })
+
+})
+
 export default storageLibro;
