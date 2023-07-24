@@ -15,7 +15,7 @@ storageCategoria.use((req, res, next)=>{
 
 storageCategoria.get("/", (req, res)=>{
     
-    con.query('select * from categoria;', (err,data, fil)=>{
+    con.query('select c.nombre as categoria from categoria as c;', (err,data, fil)=>{
         if(err){
             res.status(500).send("Error en la solicitud"+err);
         }else{
